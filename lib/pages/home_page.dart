@@ -1,4 +1,6 @@
+import 'package:datademo2/model/user_model.dart';
 import 'package:datademo2/pages/signup_page.dart';
+import 'package:datademo2/service/get_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,11 +16,20 @@ class _HomePageState extends State<HomePage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _doSignIn(){
+   Future<void> _doSignIn() async{
     String email = emailController.text.toString().trim();
-    String password = passwordController.text.toString().trim();
-    print(email);
-    print(password);
+    String address = passwordController.text.toString().trim();
+
+    var user = User(email: email, address: address);
+    if(email != null || address != null){
+      GetService.store(user);
+
+      final user1 = GetService.load();
+      print(user1.email);
+      print(user1.address);
+
+    }
+
   }
 
   @override

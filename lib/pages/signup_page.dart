@@ -1,5 +1,10 @@
+
+
 import 'package:datademo2/pages/home_page.dart';
 import 'package:flutter/material.dart';
+
+import '../model/user_model.dart';
+import '../service/get_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -16,13 +21,22 @@ class _SignUpPageState extends State<SignUpPage> {
   final addressController = TextEditingController();
 
 
-  void _doSignUp(){
+  Future<void> _doSignUp() async{
     String email = emailController.text.toString().trim();
-    String number = numberController.text.toString().trim();
+    String phone = numberController.text.toString().trim();
     String address = addressController.text.toString().trim();
-    print(email);
-    print(number);
-    print(address);
+
+    var user = User.from(email: email, address: address, phone: phone);
+    if(email != null && address != null && phone != null){
+      GetService.store(user);
+
+      final  user1 = GetService.load();
+
+      print(user1.email);
+      print(user1.address);
+      print(user1.phone);
+
+    }
 
   }
 
